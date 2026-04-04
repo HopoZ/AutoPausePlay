@@ -78,10 +78,24 @@ async def main():
 
     log("Z系统", f"服务启动 | 阈值={THRESHOLD}, 延迟={DELAY}s", Fore.BLUE)
 
-    server = await websockets.serve(handler, "localhost", 8765)
+    try:
+        server = await websockets.serve(handler, "localhost", 8765)
 
-    with sd.InputStream(callback=audio_callback):
-        await server.wait_closed()
+        def safe_callback(indata, frames, time, status):
+            try:
+                if status:
+                    log("音频", f"状态异常: {status}", Fore.YELLOW)
+
+                audio_callback(indata, frames, time, status)
+
+            except Exception as e:
+                log("音频", f"回调异常: {e}", Fore.RED)
+
+        with sd.InputStream(callback=safe_callback):
+            await server.wait_closed()
+
+    except Exception as e:
+        log("系统", f"音频流或服务器异常: {e}", Fore.RED)
 
 
 # 程序入口
