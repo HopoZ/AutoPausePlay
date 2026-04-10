@@ -8,7 +8,7 @@
 (function () {
     'use strict';
 
-    const THRESHOLD = 0.02;   // 音量阈值
+    const THRESHOLD = 0.01;   // 音量阈值
     const DELAY = 2000;       // 静音恢复延迟(ms)
 
     let isSpeaking = false;
