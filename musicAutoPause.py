@@ -13,7 +13,7 @@ init(autoreset=True)  # 初始化colorama，自动重置颜色
 
 # 配置参数
 THRESHOLD = 0.01  # 音量阈值
-DELAY = 2  # 静音恢复延迟,s
+DELAY = 5  # 静音恢复延迟,s
 
 clients = set()
 is_speaking = False
